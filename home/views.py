@@ -1,18 +1,29 @@
+from builtins import dict
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, render
+from django.template.loader import get_template
+from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateResponseMixin
 from django.urls import reverse
 
 
-class HomeIndex(View):
+class A:
+    pk = None
+    type = None
+
+
+class HomeIndex(View, TemplateResponseMixin):
+    template_name = 'home/home.html'
+
     def get(self, request, *args, **kwargs):
-        return HttpResponse('Home Page')
+        return self.render_to_response(None)
 
 
 class PostIndexView(View, TemplateResponseMixin):
-    template_name = 'post_index.html'
+    template_name = 'home/post_index.html'
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response(context=None)
@@ -26,19 +37,31 @@ class PostIndexView(View, TemplateResponseMixin):
         return HttpResponseRedirect(reverse('posts_detail', kwargs=dict(pk=data['pk'])))
 
 
-class PostDetailView(View):
+class PostDetailView(View, TemplateResponseMixin):
+    template_name = 'home/post_detail.html'
+
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk', None)
-        return HttpResponse('Post Page - %s' % pk)
+
+        types = [
+            'new',
+            'old',
+        ]
+        return self.render_to_response(context={'pk': pk, 'types': types})
 
 
-class PostDetailTypeView(View):
+class PostDetailTypeView(View, TemplateResponseMixin):
+    template_name = 'home/post_detail_type.html'
+
     def get(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         type = kwargs.get('type')
+        template = get_template(self.template_name)
+        date = timezone.now()
+        data = dict(data=dict(type=type, pk=pk, d=date))
 
-        return HttpResponse('Post Page - %s of Type - %s' % (pk, type))
-
+        s = template.render(context=data)
+        return HttpResponse(s)
 
 def home_index(request):
     return HttpResponse('Home Page')

@@ -6,8 +6,8 @@ from home.views import HomeIndex, PostIndexView, PostDetailView, PostDetailTypeV
 
 urlpatterns = [
     path('home/', HomeIndex.as_view(), name='home'),
-    path('posts/', post_index, name='posts_index'),
+    path('posts/', PostIndexView.as_view(), name='posts_index'),
     path('posts/<int:pk>/', PostDetailView.as_view(), name='posts_detail'),
-    path('posts/<int:pk>/<str:type>/', PostDetailTypeView.as_view(), name='posts_detail_type'),
+    path('posts/<int:pk>/types/<str:type>/', PostDetailTypeView.as_view(), name='posts_detail_type'),
 
 ]

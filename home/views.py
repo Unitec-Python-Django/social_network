@@ -1,13 +1,13 @@
 from builtins import dict
 
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.template.loader import get_template
+from django.urls import reverse
 from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateResponseMixin
-from django.urls import reverse
 
 
 class A:
@@ -16,7 +16,7 @@ class A:
 
 
 class HomeIndex(View, TemplateResponseMixin):
-    template_name = 'home/home.html'
+    template_name = 'home/photo_base.html'
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response(None)

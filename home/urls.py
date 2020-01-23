@@ -1,7 +1,5 @@
 from django.urls import path
-from django.http import HttpResponse
 
-from home.views import home_index, post_index, post_detail, post_detail_type
 from home.views import HomeIndex, PostIndexView, PostDetailView, PostDetailTypeView
 
 urlpatterns = [

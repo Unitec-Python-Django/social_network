@@ -25,7 +25,7 @@ SECRET_KEY = 'rnx_w6k)*+x6=!t(mz(7!m-)h+6^rz$insol-kfg%g)#+y8y9j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 
 # Application definition

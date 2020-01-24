@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import TemplateResponseMixin
-
+from post.models import Post
 
 class A:
     pk = None
@@ -16,10 +16,11 @@ class A:
 
 
 class HomeIndex(View, TemplateResponseMixin):
-    template_name = 'home/photo_base.html'
+    template_name = 'home/photo_home.html'
 
     def get(self, request, *args, **kwargs):
-        return self.render_to_response(None)
+        post = Post.objects.first()
+        return self.render_to_response(context={'post': post})
 
 
 class PostIndexView(View, TemplateResponseMixin):

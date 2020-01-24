@@ -1,5 +1,5 @@
-{% load static %}
 {% load staticfiles %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,7 +22,7 @@
 		=============================================== -->
 		<link rel="icon" href="{% static 'home/img/logo.jpg' %}">
 		<link rel="apple-touch-icon" href="{% static 'home/img/favicons/apple-touch-icon.png' %}">
-		<link rel="apple-touch-icon" sizes="72x72" href="{% static 'home/img/favicons/apple-touch-icon-72x72.png' %}">
+		<link rel="apple-touch-icon" sizes="72x72" href="{% static 'home/img/favicons/apple-touch-icon-72x72.png'%}">
 		<link rel="apple-touch-icon" sizes="114x114" href="{% static 'home/img/favicons/apple-touch-icon-114x114.png' %}">
 
 	    <!-- ==============================================
@@ -148,12 +148,12 @@
 			  <div class="slimscroll" style="max-height: 230px; overflow: hidden; width: auto; height: 416.983px;">
 			   <div id="Slim2">
 				<a href="javascript:void(0);" class="dropdown-item notify-item nav-user">
-				 <div class="notify-icon"><img src="assets\img\users\1.jpg" class="img-responsive img-circle" alt=""> </div>
+				 <div class="notify-icon"><img src="{% static 'home/img/users/1.jpg' %}" class="img-responsive img-circle" alt=""> </div>
 				 <p class="notify-details">Cristina Pride</p>
 				 <p class="text-muted font-13 mb-0 user-msg">Hi, How are you? What about our next meeting</p>
 				</a><!--/ dropdown-item-->
 				<a href="javascript:void(0);" class="dropdown-item notify-item nav-user">
-				 <div class="notify-icon"><img src="assets\img\users\2.jpg" class="img-responsive img-circle" alt=""> </div>
+				 <div class="notify-icon"><img src="{% static 'home/img/users/2.jpg' %}" class="img-responsive img-circle" alt=""> </div>
 				 <p class="notify-details">Sam Garret</p>
 				 <p class="text-muted font-13 mb-0 user-msg">Yeah everything is fine</p>
 				</a><!--/ dropdown-item-->
@@ -185,7 +185,7 @@
 
 		 <li class="dropdown mega-avatar">
 		  <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-		   <span class="avatar w-32"><img src="{% static 'home/img/users/2.jpg' %}" class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
+		   <span class="avatar w-32"><img src="assets\img\users\2.jpg" class="img-resonsive img-circle" width="25" height="25" alt="..."></span>
 		   <!-- hidden-xs hides the username on small devices so only the image appears. -->
 		   <span class="hidden-xs">
 			Alex Grantte
@@ -242,12 +242,13 @@
 	  </div>
 	</section>
 
-
+     {% block section_body %}
+     {% endblock %}
 
      <!-- ==============================================
 	 Scripts
 	 =============================================== -->
-	<script src="{% static 'home/js/jquery.min.js' %}"></script>
+	<script src="{% static 'home/js/jquery.min.js'%}"></script>
 	<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'home/js/base.js' %}"></script>
 	<script src="{% static 'home/plugins/slimscroll/jquery.slimscroll.js' %}"></script>

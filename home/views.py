@@ -7,7 +7,12 @@ from django.urls import reverse
 from django.utils import timezone
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
+from django.views.generic import DetailView, RedirectView
 from django.views.generic.base import TemplateResponseMixin
+from django.views.generic.edit import BaseFormView
+
+from messaging.models import Chat, Message
+from post.forms import PostUploadForm
 from post.models import Post
 
 class A:
@@ -21,6 +26,51 @@ class HomeIndex(View, TemplateResponseMixin):
     def get(self, request, *args, **kwargs):
         post = Post.objects.first()
         return self.render_to_response(context={'post': post})
+
+
+class UploadIndexView(BaseFormView, TemplateResponseMixin):
+    form_class = PostUploadForm
+    template_name = 'home/photo_upload.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(context={'form': PostUploadForm()})
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        files = request.FILES
+        form = PostUploadForm(data=data, files=files)
+        if not form.is_valid():
+            self.render_to_response(context=self.get_context_data(form=form))
+        Post.objects.create(user=request.user, **form.cleaned_data)
+        return self.render_to_response(context={})
+
+
+class ChatIndexView(RedirectView, TemplateResponseMixin):
+    pattern_name = 'chat_detail'
+    template_name = 'home/photo_chat.html'
+
+    def get(self, request, *args, **kwargs):
+        current_chat = Chat.objects.find_all_of(request.user).first()
+
+        if current_chat:
+            return super().get(request, current_chat.id)
+
+        chats = []
+        current_chat = None
+        messages = []
+        return self.render_to_response(context={'chats': chats, 'current_chat': current_chat, 'messages': messages})
+
+
+class ChatDetailView(DetailView, TemplateResponseMixin):
+    queryset = Chat.objects.all()
+
+    template_name = 'home/photo_chat.html'
+
+    def get(self, request, pk=None, *args, **kwargs):
+        chats = Chat.objects.find_all_of(request.user)
+        current_chat = self.get_object()
+        messages = Message.objects.filter(chat=current_chat)
+        return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages})
 
 
 class PostIndexView(View, TemplateResponseMixin):

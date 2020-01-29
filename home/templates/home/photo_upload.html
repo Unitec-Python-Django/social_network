@@ -1,0 +1,155 @@
+{% extends 'home/photo_base.html' %}
+
+{% block section_body %}
+    <!-- ==============================================
+         News Feed Section
+         =============================================== -->
+    <section class="upload">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="box">
+                            <textarea name="description" class="form-control no-border" rows="3"
+                                      placeholder="Type something..."></textarea>
+                            <label>{{ form.description.errors }}</label>
+                            <div class="box-footer clearfix">
+                                <button class="kafe-btn kafe-btn-mint-small pull-right btn-sm">Upload</button>
+                                <ul class="nav nav-pills nav-sm">
+                                    <li class="nav-item">
+                                        <input type="file" name="photo" class="fa fa-camera text-muted"
+                                               accept="image/*"/>
+                                    </li>
+                                </ul>
+                            </div>
+                            <label>{{ form.photo.errors }}</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row one-row">
+                <div class="col-lg-12">
+                    <a href="https://picturepan2.github.io/instagram.css/" target="_blank"><h4>Instagram Filters from
+                        Picture Pan 2</h4></a>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span>Normal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-1977">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">1977</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-willow">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Willow</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--/ row-->
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-sutro">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Sutro</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-reyes">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Reyes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-poprocket">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Poprocket</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--/ row-->
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-inkwell">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Inkwell</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-nashville">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Nashville</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+                    <div class="card">
+                        <div class="card-image filter-moon">
+                            <img src="assets\img\posts\18.jpg" class="img-responsive" alt="Image">
+                        </div>
+                        <div class="card-header">
+                            <span class="h6">Moon</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--/ row-->
+
+
+        </div><!--/ container -->
+    </section><!--/ newsfeed -->
+
+{% endblock section_body %}

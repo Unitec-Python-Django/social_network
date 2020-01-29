@@ -1,0 +1,114 @@
+{% extends 'home/photo_base.html' %}
+{% load messaging %}
+{% block section_body %}
+    <!-- ==============================================
+    Modal Section
+    =============================================== -->
+    <section class="chat">
+        <div class="container">
+            <div class="row">
+                <div class="messages-box">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 no-pdd">
+                            <div class="messages-container">
+
+                                <div class="message-header">
+                                    <div class="message-title">
+                                        <h4>Messages</h4>
+                                    </div><!--/ message-title-->
+                                    <div class="search-area">
+                                        <div class="input-field">
+                                            <input placeholder="Search" type="text">
+                                            <i class="fa fa-search"></i>
+                                        </div>
+                                    </div><!--/ search-area-->
+                                </div><!--/ message-header-->
+
+                                <div class="messages-list">
+                                    <ul>
+                                        {% for chat in chats %}
+                                            <li class="{% chat_active chat %}">
+                                                <a href="{% url 'chat_detail' chat.id %}">
+                                                <div class="user-message-details">
+                                                    <div class="user-message-img">
+                                                        <img src="{% receiver_photo chat %}"
+                                                             class="img-responsive img-circle"
+                                                             alt="">
+                                                        <span class="user-online"></span>
+                                                    </div>
+                                                    <div class="user-message-info">
+                                                        <h4>{% receiver_name chat %}</h4>
+                                                        <p>{% receiver_last_message chat %}</p>
+                                                        <span class="time-posted">{% receiver_last_message_time chat %}</span>
+                                                    </div><!--/ user-message-info -->
+                                                    <span class="message-notification">{% receiver_new_messages_count chat %}</span>
+                                                </div><!--/ user-message-details -->
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div><!--/ messages-list -->
+
+                            </div><!--/ messages-container-->
+                        </div><!--/ col-lg-4 -->
+
+                        <div class="col-lg-8 col-md-12 pd-right-none pd-left-none">
+                            <div class="conversation-box">
+
+                                <div class="conversation-header">
+                                    <div class="user-message-details">
+                                        <div class="user-message-img">
+                                            <img src="{% receiver_photo current_chat %}"
+                                                 class="img-responsive img-circle" alt="">
+                                        </div>
+                                        <div class="user-message-info">
+                                            <h4>{% receiver_name current_chat %}</h4>
+                                            <p>Online</p>
+                                        </div><!--/ user-message-info -->
+                                    </div><!--/ user-message-details -->
+                                    <a href="#" title=""><i class="fa fa-ellipsis-v"></i></a>
+                                </div><!--/ conversation-header -->
+
+                                <div class="conversation-container">
+                                    {% for message in messages %}
+                                        <div class="convo-box {% message_direction message %}">
+
+                                                {% message_direction message as m_d %}
+                                                <div class="convo-area {% if m_d == 'convo-left' %} convo-left {% endif %}">
+                                                    <div class="convo-message">
+                                                        <p>{{ message.text }}</p>
+                                                    </div><!--/ convo-message-->
+                                                    <span>{{ message.created_at|timesince }}</span>
+                                                </div><!--/ convo-area -->
+                                                <div class="convo-img">
+                                                    <img src="{{ message.from_user.profile.photo.url }}" alt=""
+                                                         class="img-responsive img-circle">
+                                                </div><!--/ convo-img -->
+
+                                        </div><!--/ convo-box -->
+                                    {% endfor %}
+
+                                </div><!--/ conversation-container -->
+                                <div class="type_messages">
+                                    <div class="input-field">
+                                        <textarea placeholder="Type something &amp; press enter"></textarea>
+                                        <ul class="imoji">
+                                            <li><a href="#"><i class="fa fa-smile"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-image"></i></a></li>
+                                            <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
+                                        </ul><!--/ imoji -->
+                                    </div><!--/ input-field -->
+                                </div><!--/ type_messages -->
+
+                            </div><!--main-conversation-box end-->
+                        </div><!--/ col-lg-8 -->
+
+                    </div><!--/ row -->
+                </div><!--/ messages-box -->
+
+            </div><!--/ row -->
+        </div><!--/ container -->
+    </section><!--/ chat -->
+
+
+{% endblock %}

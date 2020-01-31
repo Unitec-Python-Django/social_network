@@ -1,6 +1,8 @@
 {% extends 'home/photo_base.html' %}
 
 {% block section_body %}
+    {% include 'home/photo_nav_header.html' %}
+    {% include 'home/photo_nav_section.html' %}
     <!-- ==============================================
          News Feed Section
          =============================================== -->
@@ -14,7 +16,7 @@
                         <div class="box">
                             <textarea name="description" class="form-control no-border" rows="3"
                                       placeholder="Type something..."></textarea>
-                            <label>{{ form.description.errors }}</label>
+                            <label>{{ errors.description }}</label>
                             <div class="box-footer clearfix">
                                 <button class="kafe-btn kafe-btn-mint-small pull-right btn-sm">Upload</button>
                                 <ul class="nav nav-pills nav-sm">
@@ -24,7 +26,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <label>{{ form.photo.errors }}</label>
+                            <label>{{ errors.photo }}</label>
                         </div>
                     </form>
                 </div>

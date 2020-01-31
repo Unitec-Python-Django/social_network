@@ -1,6 +1,8 @@
 {% extends 'home/photo_base.html' %}
 {% load messaging %}
 {% block section_body %}
+    {% include 'home/photo_nav_header.html' %}
+    {% include 'home/photo_nav_section.html' %}
     <!-- ==============================================
     Modal Section
     =============================================== -->
@@ -29,20 +31,23 @@
                                         {% for chat in chats %}
                                             <li class="{% chat_active chat %}">
                                                 <a href="{% url 'chat_detail' chat.id %}">
-                                                <div class="user-message-details">
-                                                    <div class="user-message-img">
-                                                        <img src="{% receiver_photo chat %}"
-                                                             class="img-responsive img-circle"
-                                                             alt="">
-                                                        <span class="user-online"></span>
-                                                    </div>
-                                                    <div class="user-message-info">
-                                                        <h4>{% receiver_name chat %}</h4>
-                                                        <p>{% receiver_last_message chat %}</p>
-                                                        <span class="time-posted">{% receiver_last_message_time chat %}</span>
-                                                    </div><!--/ user-message-info -->
-                                                    <span class="message-notification">{% receiver_new_messages_count chat %}</span>
-                                                </div><!--/ user-message-details -->
+                                                    <div class="user-message-details">
+                                                        <div class="user-message-img">
+                                                            <img src="{% receiver_photo chat %}"
+                                                                 class="img-responsive img-circle"
+                                                                 alt="">
+                                                            <span class="user-online"></span>
+                                                        </div>
+                                                        <div class="user-message-info">
+                                                            <h4>{% receiver_name chat %}</h4>
+                                                            <p>{% receiver_last_message chat %}</p>
+                                                            <span class="time-posted">{% receiver_last_message_time chat %}</span>
+                                                        </div><!--/ user-message-info -->
+                                                        {% receiver_new_messages_count chat as chat_count %}
+                                                        {% if chat_count %}
+                                                            <span class="message-notification">{{ chat_count }}</span>
+                                                        {% endif %}
+                                                    </div><!--/ user-message-details -->
                                                 </a>
                                             </li>
                                         {% endfor %}
@@ -73,31 +78,36 @@
                                     {% for message in messages %}
                                         <div class="convo-box {% message_direction message %}">
 
-                                                {% message_direction message as m_d %}
-                                                <div class="convo-area {% if m_d == 'convo-left' %} convo-left {% endif %}">
-                                                    <div class="convo-message">
-                                                        <p>{{ message.text }}</p>
-                                                    </div><!--/ convo-message-->
-                                                    <span>{{ message.created_at|timesince }}</span>
-                                                </div><!--/ convo-area -->
-                                                <div class="convo-img">
-                                                    <img src="{{ message.from_user.profile.photo.url }}" alt=""
-                                                         class="img-responsive img-circle">
-                                                </div><!--/ convo-img -->
+                                            {% message_direction message as m_d %}
+                                            <div class="convo-area {% if m_d == 'convo-left' %} convo-left {% endif %}">
+                                                <div class="convo-message">
+                                                    <p>{{ message.text }}</p>
+                                                </div><!--/ convo-message-->
+                                                <span>{{ message.created_at|timesince }}</span>
+                                            </div><!--/ convo-area -->
+                                            <div class="convo-img">
+                                                <img src="{{ message.from_user.profile.photo.url }}" alt=""
+                                                     class="img-responsive img-circle">
+                                            </div><!--/ convo-img -->
 
                                         </div><!--/ convo-box -->
                                     {% endfor %}
 
                                 </div><!--/ conversation-container -->
                                 <div class="type_messages">
-                                    <div class="input-field">
-                                        <textarea placeholder="Type something &amp; press enter"></textarea>
-                                        <ul class="imoji">
-                                            <li><a href="#"><i class="fa fa-smile"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-image"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
-                                        </ul><!--/ imoji -->
-                                    </div><!--/ input-field -->
+                                    <form action="{% url 'chat_detail' current_chat.id %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="input-field">
+                                            <textarea id="message_text_area" name="text" placeholder="Type something &amp; press enter"></textarea>
+                                            <ul class="imoji">
+                                                <li><a href="#"><i class="fa fa-smile"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-image"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
+                                            </ul><!--/ imoji -->
+                                        </div>  <!--/ input-field -->
+                                        <label>{{ errors.text }}</label>
+                                        <input id="message_send_button" type="submit" hidden>
+                                    </form>
                                 </div><!--/ type_messages -->
 
                             </div><!--main-conversation-box end-->
@@ -109,6 +119,15 @@
             </div><!--/ row -->
         </div><!--/ container -->
     </section><!--/ chat -->
+    <script>
+        function onEnter(event) {
+            if (event.code == "Enter" && event.ctrlKey) {
+                document.getElementById("message_send_button").click();
+                event.preventDefault();
+            }
+        }
+    document.getElementById("message_text_area").addEventListener("keypress", onEnter)
 
+    </script>
 
 {% endblock %}

@@ -1,9 +1,10 @@
 from django.urls import path
 
 from home.views import HomeIndex, PostIndexView, PostDetailView, PostDetailTypeView, UploadIndexView, ChatIndexView, \
-    ChatDetailView
+    ChatDetailView, LoginIndexView
 
 urlpatterns = [
+    path('login/', LoginIndexView.as_view(), name='login'),
     path('home/', HomeIndex.as_view(), name='home'),
     path('upload/', UploadIndexView.as_view(), name='upload'),
     path('chat/', ChatIndexView.as_view(), name='chat'),

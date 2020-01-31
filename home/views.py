@@ -1,6 +1,8 @@
 from builtins import dict
 
-from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate, login
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.urls import reverse
@@ -11,13 +13,27 @@ from django.views.generic import DetailView, RedirectView
 from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import BaseFormView
 
+from messaging.forms import MessageSendForm
 from messaging.models import Chat, Message
 from post.forms import PostUploadForm
 from post.models import Post
 
-class A:
-    pk = None
-    type = None
+
+class LoginIndexView(View, TemplateResponseMixin):
+    template_name = 'home/photo_login.html'
+
+    def get(self, request, *args, **kwargs):
+        return self.render_to_response(context={})
+
+    def post(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(reverse('home'))
+        return self.render_to_response(context={'error': 'Invalid Login'})
 
 
 class HomeIndex(View, TemplateResponseMixin):
@@ -40,7 +56,7 @@ class UploadIndexView(BaseFormView, TemplateResponseMixin):
         files = request.FILES
         form = PostUploadForm(data=data, files=files)
         if not form.is_valid():
-            self.render_to_response(context=self.get_context_data(form=form))
+            return self.render_to_response(context=self.get_context_data(form=form, errors=form.errors))
         Post.objects.create(user=request.user, **form.cleaned_data)
         return self.render_to_response(context={})
 
@@ -69,8 +85,24 @@ class ChatDetailView(DetailView, TemplateResponseMixin):
     def get(self, request, pk=None, *args, **kwargs):
         chats = Chat.objects.find_all_of(request.user)
         current_chat = self.get_object()
+
         messages = Message.objects.filter(chat=current_chat)
+        messages\
+            .filter(from_user=current_chat.get_opposite_user(request.user), viewed_at__isnull=True)\
+            .update(viewed_at=timezone.now())
         return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages})
+
+    def post(self, request, pk=None, *args, **kwargs):
+        chats = Chat.objects.find_all_of(request.user)
+        current_chat = self.get_object()
+        messages = Message.objects.filter(chat=current_chat)
+
+        form = MessageSendForm(request.POST)
+        if form.is_valid():
+            Message.objects.create(from_user=request.user, chat=current_chat, **form.cleaned_data)
+            return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages})
+
+        return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages, 'errors': form.errors})
 
 
 class PostIndexView(View, TemplateResponseMixin):
@@ -113,6 +145,7 @@ class PostDetailTypeView(View, TemplateResponseMixin):
 
         s = template.render(context=data)
         return HttpResponse(s)
+
 
 def home_index(request):
     return HttpResponse('Home Page')

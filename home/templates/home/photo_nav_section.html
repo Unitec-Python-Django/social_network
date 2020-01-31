@@ -1,0 +1,33 @@
+{% load hometags %}
+<!-- ==============================================
+Navbar Second Section
+=============================================== -->
+<section class="nav-sec">
+    <div class="d-flex justify-content-between">
+        <div class="p-2 nav-icon-lg {% nav_select 'home' %}">
+            <a class="nav-icon" href="{% url 'home' %}"><em class="fa fa-home"></em>
+                <span>Home</span>
+            </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black">
+            <a class="nav-icon" href="photo_explore.html"><em class="fa fa-crosshairs"></em>
+                <span>Explore</span>
+            </a>
+        </div>
+        <div class="p-2 nav-icon-lg {% nav_select 'upload' %}">
+            <a class="nav-icon" href="{% url 'upload' %}"><em class="fab fa-instagram"></em>
+                <span>Upload</span>
+            </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black">
+            <a class="nav-icon" href="photo_stories.html"><em class="fa fa-align-left"></em>
+                <span>Stories</span>
+            </a>
+        </div>
+        <div class="p-2 nav-icon-lg dark-black">
+            <a class="nav-icon" href="photo_profile.html"><em class="fa fa-user"></em>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+</section>

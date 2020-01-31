@@ -1,0 +1,28 @@
+{% extends 'home/photo_base.html' %}
+
+{% block section_body %}
+    <section class="login">
+        <div class="container">
+            <div class="banner-content">
+
+                <h1><i class="fa fa-smile"></i> Fluffs</h1>
+                <form method="post" class="form-signin">
+                    <h3 class="form-signin-heading">Please sign in</h3>
+                    <div class="form-group">
+                        <input name="email" type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                    </div>
+                    <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">Sign in</button>
+                    <br>
+                    <a class="btn btn-dark " href="photo_register.html" role="button">Don't have an account yet?
+                        Register
+                        Here.</a>
+                    <a class="btn btn-dark " href="photo_register.html" role="button">Forgot your password?</a>
+                </form>
+
+            </div><!--/. banner-content -->
+        </div><!-- /.container -->
+    </section>
+{% endblock section_body %}

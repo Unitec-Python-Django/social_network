@@ -1,7 +1,8 @@
 {% extends 'home/photo_base.html' %}
 
 {% block section_body %}
-
+    {% include 'home/photo_nav_header.html' %}
+    {% include 'home/photo_nav_section.html' %}
     {% include 'post/post.html' %}
 
 {% endblock %}

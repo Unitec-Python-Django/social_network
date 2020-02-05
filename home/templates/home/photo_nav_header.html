@@ -173,7 +173,7 @@ Navigation Section
                                                            width="25" height="25" alt="..."></span>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">
-			Alex Grantte
+			{% if request.user.is_authenticated %} {{request.user.first_name}} {{ request.user.last_name }} {% else %} Anonymous User {% endif %}
 		   </span>
                         </a>
                         <div class="dropdown-menu w dropdown-menu-scale pull-right">
@@ -184,7 +184,7 @@ Navigation Section
                             <a class="dropdown-item" href="#"><span>Settings</span></a>
                             <a class="dropdown-item" href="#">Need help?</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Sign out</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Sign out</a>
                         </div>
                     </li><!-- /navbar-item -->
 

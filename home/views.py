@@ -1,12 +1,13 @@
 from builtins import dict
 
-from django.contrib.auth import authenticate, login
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import DetailView, RedirectView
@@ -19,23 +20,23 @@ from post.forms import PostUploadForm
 from post.models import Post
 
 
-class LoginIndexView(View, TemplateResponseMixin):
+class LoginView(View, TemplateResponseMixin):
     template_name = 'home/photo_login.html'
 
     def get(self, request, *args, **kwargs):
         return self.render_to_response(context={})
 
     def post(self, request, *args, **kwargs):
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user:
-            login(request, user)
-            return HttpResponseRedirect(reverse('home'))
-        return self.render_to_response(context={'error': 'Invalid Login'})
+        data = request.POST
+        user = authenticate(request=request, username=data['email'], password=data['password'])
+        if not user:
+            return self.render_to_response(context={'error': 'Invalid login credentials'})
+        login(request=request, user=user)
+        return HttpResponseRedirect(reverse('home'))
 
 
+@method_decorator(permission_required('post.view_post', raise_exception=True), name='get')
+@method_decorator(login_required, name='get')
 class HomeIndex(View, TemplateResponseMixin):
     template_name = 'home/photo_home.html'
 
@@ -44,6 +45,14 @@ class HomeIndex(View, TemplateResponseMixin):
         return self.render_to_response(context={'post': post})
 
 
+class LogoutView(View):
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('login'))
+
+
+@method_decorator(login_required, name='get')
 class UploadIndexView(BaseFormView, TemplateResponseMixin):
     form_class = PostUploadForm
     template_name = 'home/photo_upload.html'
@@ -87,8 +96,8 @@ class ChatDetailView(DetailView, TemplateResponseMixin):
         current_chat = self.get_object()
 
         messages = Message.objects.filter(chat=current_chat)
-        messages\
-            .filter(from_user=current_chat.get_opposite_user(request.user), viewed_at__isnull=True)\
+        messages \
+            .filter(from_user=current_chat.get_opposite_user(request.user), viewed_at__isnull=True) \
             .update(viewed_at=timezone.now())
         return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages})
 
@@ -102,7 +111,8 @@ class ChatDetailView(DetailView, TemplateResponseMixin):
             Message.objects.create(from_user=request.user, chat=current_chat, **form.cleaned_data)
             return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages})
 
-        return self.render_to_response(context={'current_chat': current_chat, 'chats': chats, 'messages': messages, 'errors': form.errors})
+        return self.render_to_response(
+            context={'current_chat': current_chat, 'chats': chats, 'messages': messages, 'errors': form.errors})
 
 
 class PostIndexView(View, TemplateResponseMixin):

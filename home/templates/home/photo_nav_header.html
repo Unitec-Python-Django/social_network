@@ -1,5 +1,5 @@
 {% load static %}
-{% load staticfiles %}
+{% load hometags %}
 <!-- ==============================================
 Navigation Section
 =============================================== -->
@@ -26,9 +26,10 @@ Navigation Section
                 <ul class="nav navbar-nav">
                     <li>
                         <div class="search-dashboard">
-                            <form>
-                                <input placeholder="Search here" type="text">
-                                <button type="submit"><i class="fa fa-search"></i></button>
+                            <form id="something_to_submit" method="get" action="{{ request.path }}">
+                                <input name="search" placeholder="Search here" type="text" {% get_request_query 'search' as search_query %} {% if search_query  %} value="{{ search_query }}" {% endif %}>
+                                <input id="page_input" hidden name="page" type="number" {% get_request_query 'page' as page_query %} {% if page_query  %} value="{{ page_query }}" {% endif %}>
+                                <button id="form_submit_button" type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
                     </li>
@@ -40,7 +41,6 @@ Navigation Section
                             <span class="badge badge-danger badge-pill noti-icon-badge">4</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-
                             <div class="dropdown-item noti-title">
                                 <h6 class="m-0">
 			   <span class="pull-right">

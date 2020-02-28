@@ -12,3 +12,8 @@ def nav_select(context, view_name, *args, **kwargs):
         return 'mint-green'
     else:
         return 'dark-black'
+
+
+@register.simple_tag(takes_context=True)
+def get_request_query(context, query_name, *args, **kwargs):
+    return context['request'].GET.get(query_name)

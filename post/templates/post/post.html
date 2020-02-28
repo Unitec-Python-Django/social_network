@@ -31,6 +31,9 @@
         </a>
     </div><!--/ cardbox-item -->
     <div class="cardbox-base">
+        <p>{{ post.description }}</p>
+    </div><!--/ cardbox-base -->
+    <div class="cardbox-base">
         <ul>
         {% for post_like in post.post_likes.all %}
             <li><a href="#"><img src="{{ post_like.user.profile.photo.url }}" class="img-responsive img-circle" alt="User"></a></li>

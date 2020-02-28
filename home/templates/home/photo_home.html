@@ -3,6 +3,50 @@
 {% block section_body %}
     {% include 'home/photo_nav_header.html' %}
     {% include 'home/photo_nav_section.html' %}
-    {% include 'post/post.html' %}
+
+    <section class="newsfeed">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                    {% for post in page_obj %}
+                        {% include 'post/post.html' with post=post %}
+                    {% endfor %}
+                    <div class="col" style="background-color: darkgrey" align="center">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a id="a_id" href="?page={{ page_obj.next_page_number }}"
+                                   value="{{ page_obj.next_page_number }}">next</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.getElementById('a_id').addEventListener('click', function (event) {
+            event.preventDefault();
+            console.log(event.srcElement);
+            input_f = document.getElementById('page_input');
+            input_f.value = event.srcElement.value;
+            console.log(input_f);
+            console.log(input_f.value);
+            document.getElementById('form_submit_button').click();
+        });
+    </script>
 
 {% endblock %}

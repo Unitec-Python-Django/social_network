@@ -2,6 +2,7 @@ from builtins import dict
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import get_template
@@ -35,14 +36,21 @@ class LoginView(View, TemplateResponseMixin):
         return HttpResponseRedirect(reverse('home'))
 
 
-@method_decorator(permission_required('post.view_post', raise_exception=True), name='get')
-@method_decorator(login_required, name='get')
+# @method_decorator(permission_required('post.view_post', raise_exception=True), name='get')
+# @method_decorator(login_required, name='get')
 class HomeIndex(View, TemplateResponseMixin):
     template_name = 'home/photo_home.html'
 
     def get(self, request, *args, **kwargs):
-        post = Post.objects.first()
-        return self.render_to_response(context={'post': post})
+        posts = Post.objects.all()
+
+        search = request.GET.get('search')
+        if search:
+            posts = posts.filter(description__icontains=search)
+        paginator = Paginator(posts, 1)
+        page_number = request.GET.get('page')
+        page = paginator.get_page(page_number)
+        return self.render_to_response(context={'page_obj': page})
 
 
 class LogoutView(View):

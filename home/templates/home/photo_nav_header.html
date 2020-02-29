@@ -27,8 +27,7 @@ Navigation Section
                     <li>
                         <div class="search-dashboard">
                             <form id="something_to_submit" method="get" action="{{ request.path }}">
-                                <input name="search" placeholder="Search here" type="text" {% get_request_query 'search' as search_query %} {% if search_query  %} value="{{ search_query }}" {% endif %}>
-                                <input id="page_input" hidden name="page" type="number" {% get_request_query 'page' as page_query %} {% if page_query  %} value="{{ page_query }}" {% endif %}>
+                                <input name="search" placeholder="Search here" type="text">
                                 <button id="form_submit_button" type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>

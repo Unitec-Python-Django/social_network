@@ -16,8 +16,8 @@
                     <div class="col" style="background-color: darkgrey" align="center">
                         <span class="step-links">
                             {% if page_obj.has_previous %}
-                                <a href="?page=1">&laquo; first</a>
-                                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                <a href="{{ page_obj.first_page_link }}">1</a>
+                                <a href="{{ page_obj.previous_page_link }}">{{ page_obj.previous_page_number }}</a>
                             {% endif %}
 
                             <span class="current">
@@ -25,9 +25,8 @@
                             </span>
 
                             {% if page_obj.has_next %}
-                                <a id="a_id" href="?page={{ page_obj.next_page_number }}"
-                                   value="{{ page_obj.next_page_number }}">next</a>
-                                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                <a href="{{ page_obj.next_page_link }}">{{ page_obj.next_page_number }}</a>
+                                <a href="{{ page_obj.last_page_link }}">{{ page_obj.paginator.num_pages }}</a>
                             {% endif %}
                         </span>
                     </div>
@@ -37,16 +36,4 @@
             </div>
         </div>
     </section>
-    <script>
-        document.getElementById('a_id').addEventListener('click', function (event) {
-            event.preventDefault();
-            console.log(event.srcElement);
-            input_f = document.getElementById('page_input');
-            input_f.value = event.srcElement.value;
-            console.log(input_f);
-            console.log(input_f.value);
-            document.getElementById('form_submit_button').click();
-        });
-    </script>
-
 {% endblock %}

@@ -15,6 +15,7 @@ from django.views.generic import DetailView, RedirectView
 from django.views.generic.base import TemplateResponseMixin
 from django.views.generic.edit import BaseFormView
 
+from home.utils import RequestPaginator
 from messaging.forms import MessageSendForm
 from messaging.models import Chat, Message
 from post.forms import PostUploadForm
@@ -47,9 +48,8 @@ class HomeIndex(View, TemplateResponseMixin):
         search = request.GET.get('search')
         if search:
             posts = posts.filter(description__icontains=search)
-        paginator = Paginator(posts, 1)
-        page_number = request.GET.get('page')
-        page = paginator.get_page(page_number)
+        paginator = RequestPaginator(posts, 2, request=request)
+        page = paginator.get_page()
         return self.render_to_response(context={'page_obj': page})
 
 

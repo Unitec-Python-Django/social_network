@@ -1,8 +1,7 @@
 from builtins import dict
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required, permission_required
-from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import get_template
@@ -18,6 +17,7 @@ from django.views.generic.edit import BaseFormView
 from home.utils import RequestPaginator
 from messaging.forms import MessageSendForm
 from messaging.models import Chat, Message
+from post.filters import PostFilter
 from post.forms import PostUploadForm
 from post.models import Post
 
@@ -45,12 +45,14 @@ class HomeIndex(View, TemplateResponseMixin):
     def get(self, request, *args, **kwargs):
         posts = Post.objects.all()
 
+        f = PostFilter(request.GET, queryset=posts)
+        posts = f.qs
         search = request.GET.get('search')
         if search:
             posts = posts.filter(description__icontains=search)
         paginator = RequestPaginator(posts, 2, request=request)
         page = paginator.get_page()
-        return self.render_to_response(context={'page_obj': page})
+        return self.render_to_response(context={'page_obj': page, 'f': f})
 
 
 class LogoutView(View):
@@ -172,7 +174,7 @@ def home_index(request):
 @csrf_protect
 def post_index(request):
     if request.method == 'GET':
-        return render(request=request, template_name='post_index.html')
+        return render(request=request, template_name='home/photo_home.html', context={'request': request, 'page': 2})
     elif request.method == 'POST':
         data = request.POST
         return HttpResponseRedirect(reverse('posts_detail', kwargs=dict(pk=data['pk'])))

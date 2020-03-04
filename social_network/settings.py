@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'post',
     'user_relation',
     'messaging',
+
+    'django_filters',
 ]
 
 MIDDLEWARE = [

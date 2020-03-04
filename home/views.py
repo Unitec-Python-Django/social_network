@@ -44,10 +44,8 @@ class HomeIndex(View, TemplateResponseMixin):
 
     def get(self, request, *args, **kwargs):
         posts = Post.objects.all()
-
         f = PostFilter(request.GET, queryset=posts)
-        posts = f.qs
-        paginator = RequestPaginator(posts, 2, request=request)
+        paginator = RequestPaginator(f.qs, 2, request=request)
         page = paginator.get_page()
         return self.render_to_response(context={'page_obj': page, 'f': f})
 

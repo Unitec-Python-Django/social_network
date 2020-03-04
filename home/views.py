@@ -47,9 +47,6 @@ class HomeIndex(View, TemplateResponseMixin):
 
         f = PostFilter(request.GET, queryset=posts)
         posts = f.qs
-        search = request.GET.get('search')
-        if search:
-            posts = posts.filter(description__icontains=search)
         paginator = RequestPaginator(posts, 2, request=request)
         page = paginator.get_page()
         return self.render_to_response(context={'page_obj': page, 'f': f})

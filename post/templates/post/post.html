@@ -20,7 +20,8 @@
             </div>
             <div class="media-body">
                 <p class="m-0">{{ post.user.first_name }} {{ post.user.last_name }}</p>
-                <small><span>{{ post.created_at|timesince }}</span></small>
+                <small><span>{{ post.created_at|timesince }}</span></small><br>
+                <small><span>{{ post.title }}</span></small>
             </div>
         </div><!--/ media -->
     </div><!--/ cardbox-heading -->

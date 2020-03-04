@@ -6,6 +6,7 @@ UserModel = get_user_model()
 
 class Post(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='posts')
+    title = models.CharField(null=True, blank=True, max_length=25)
     photo = models.ImageField(upload_to='post')
     description = models.TextField(null=True, blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

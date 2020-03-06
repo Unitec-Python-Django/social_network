@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 UserModel = get_user_model()
 
@@ -19,6 +20,10 @@ class Post(models.Model):
     @property
     def count_comments(self):
         return self.post_comments.count()
+
+    class Meta:
+        verbose_name = _('Post')
+        verbose_name_plural = _('Posts')
 
 
 class PostLike(models.Model):

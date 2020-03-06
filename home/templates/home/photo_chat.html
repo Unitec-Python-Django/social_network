@@ -1,4 +1,5 @@
 {% extends 'home/photo_base.html' %}
+{% load i18n %}
 {% load messaging %}
 {% block section_body %}
     {% include 'home/photo_nav_header.html' %}
@@ -83,7 +84,7 @@
                                                 <div class="convo-message">
                                                     <p>{{ message.text }}</p>
                                                 </div><!--/ convo-message-->
-                                                <span>{{ message.created_at|timesince }}</span>
+                                                <span>{{ message.created_at|timesince }} {% trans "ago" %}</span>
                                             </div><!--/ convo-area -->
                                             <div class="convo-img">
                                                 <img src="{{ message.from_user.profile.photo.url }}" alt=""

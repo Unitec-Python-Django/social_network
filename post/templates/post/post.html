@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="cardbox">
     <div class="cardbox-heading">
         <!-- START dropdown-->
@@ -20,7 +22,7 @@
             </div>
             <div class="media-body">
                 <p class="m-0">{{ post.user.first_name }} {{ post.user.last_name }}</p>
-                <small><span>{{ post.created_at|timesince }}</span></small><br>
+                <small><span>{{ post.created_at|timesince }} {% trans "ago" %}</span></small><br>
                 <small><span>{{ post.title }}</span></small>
             </div>
         </div><!--/ media -->
@@ -72,7 +74,7 @@
             <div class="img-poster clearfix">
              <a href=""><img class="img-responsive img-circle" src="{{ post.user.profile.photo.url }}" alt="Image"></a>
              <strong><a href="">{{ post.user.first_name }}</a></strong>
-             <span>{{ post.created_at|timesince }}</span><br>
+             <span>{{ post.created_at|timesince }} {% trans "ago" %}</span><br>
 		     <a href="" class="kafe kafe-btn-mint-small"><i class="fa fa-check-square"></i> Following</a>
             </div><!--/ img-poster -->
 

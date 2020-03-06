@@ -7,7 +7,6 @@ from home.views import HomeIndex, PostIndexView, PostDetailView, PostDetailTypeV
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('home/', HomeIndex.as_view(), name='home'),
     path('upload/', UploadIndexView.as_view(), name='upload'),
     path('chat/', ChatIndexView.as_view(), name='chat'),
     path('chat/<int:pk>/', ChatDetailView.as_view(), name='chat_detail'),

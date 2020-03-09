@@ -1,0 +1,76 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$vz6n4HKwTVRA$Mf7dQVwBAgnqPN2N5fbtBxZVIvOACJY8WZBZT6shPEc=",
+      "last_login": "2020-03-06T12:49:17.310Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "Bedilbek",
+      "last_name": "Khamidov",
+      "email": "admin@admin.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2020-01-23T03:53:02Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$V19dY8POQHPT$GHYvySSCfpmI6OE4RLHo/OgETR3xr2yQyqtX+sUUkc8=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "ruslan",
+      "first_name": "Ruslan",
+      "last_name": "Nigmatulin",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-01-29T08:08:45Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$8FrZLHfjUvAP$WG5DMw+aLcAmTaiZWR1osQq02XaPZ/l83gQJJRCIJ7A=",
+      "last_login": "2020-02-05T16:12:42.128Z",
+      "is_superuser": false,
+      "username": "asliddin",
+      "first_name": "Asliddin",
+      "last_name": "Shukurjonov",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-01-29T16:20:31Z",
+      "groups": [],
+      "user_permissions": [
+        28
+      ]
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$5BwU80sUjlMj$8DzE6s7GEDdx5gXACwbeai8NbriyyfpW4knFErwNUZI=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "azamjon",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2020-02-05T15:04:13.541Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
